@@ -14,7 +14,10 @@ public class CommonPagesInOrangeHRM {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
-
+	
+	@FindBy(xpath = "//h5[contains(@class, 'orangehrm-login-title')]")
+	WebElement text_Login;
+	
 	@FindBy(xpath = "//input[@placeholder='Search']")
 	WebElement link_Search;
 
@@ -182,6 +185,9 @@ public class CommonPagesInOrangeHRM {
 		case "Buzz":
 			Assert.assertEquals(link_Buzz.getText(), text_Buzz.getText());
 			break;
+		case "Login":
+			Assert.assertEquals(text_Login.getText(), pageName);
+			break;	
 		}
 	}
 

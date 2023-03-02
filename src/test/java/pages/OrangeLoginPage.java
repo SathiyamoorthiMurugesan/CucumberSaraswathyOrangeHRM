@@ -18,9 +18,6 @@ public class OrangeLoginPage {
 		PageFactory.initElements(driver, this);
 	}
 	
-	@FindBy(xpath = "//h5[contains(@class, 'orangehrm-login-title')]")
-	WebElement text_Login;
-	
 	@FindBy(name = "username")
 	WebElement textBox_UserName;
 	
@@ -52,14 +49,21 @@ public class OrangeLoginPage {
 	WebElement textBox_ForgotPassword_UserName;
 	
 	
-	public void validateLoginPage() {
-		Assert.assertEquals(text_Login.getText(), "Login");
-		Assert.assertTrue(button_Login.isDisplayed());
+	public void launchApplication() {
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		base.maximizeBrowserWindow();
 	}
 	
 	public void loginOrangeHRM(String userName, String password) {
 		textBox_UserName.sendKeys(userName);
 		textBox_Password.sendKeys(password);
+		button_Login.click();
+		base.pause(10);
+	}
+	
+	public void loginOrangeHRM1() {
+		textBox_UserName.sendKeys("Admin");
+		textBox_Password.sendKeys("admin123");
 		button_Login.click();
 		base.pause(10);
 	}

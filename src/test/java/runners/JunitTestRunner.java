@@ -8,11 +8,9 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(
 		features = "src\\test\\resources\\features"
-		,glue = {"com.guru99.stepDefinition"}
-		,plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
-		,monochrome = true
-		//,publish = true
-		
+		,glue = {"stepDefinitions"}
+		, tags = ""
+//		, dryRun = true
 		)	
 
 public class JunitTestRunner {
