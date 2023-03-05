@@ -62,9 +62,12 @@ public class OrangeLoginPage {
 	}
 	
 	public void loginOrangeHRM1() {
-		textBox_UserName.sendKeys("Admin");
-		textBox_Password.sendKeys("admin123");
-		button_Login.click();
+		base.sendTextToAnWebElement(textBox_UserName, "Admin");
+		base.sendTextToAnWebElement(textBox_Password, "admin123");
+		base.clickAnWebElement(button_Login);
+//		textBox_UserName.sendKeys("Admin");
+//		textBox_Password.sendKeys("admin123");
+//		button_Login.click();
 		base.pause(10);
 	}
 	

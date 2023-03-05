@@ -9,9 +9,9 @@ import pages.OrangeLoginPage;
 
 public class LoginPageSD {
 	
-//	Base base = new Base();
-	OrangeLoginPage loginPage = new OrangeLoginPage(getDriver());
-	CommonPagesInOrangeHRM commonPage = new CommonPagesInOrangeHRM(getDriver());
+	Base base = new Base();
+	OrangeLoginPage loginPage = new OrangeLoginPage(base.getDriver());
+	CommonPagesInOrangeHRM commonPage = new CommonPagesInOrangeHRM(base.getDriver());
 	
 	@Given("user launches OrangeHRM page")
 	public void user_launches_orange_hrm_page() {
@@ -32,5 +32,23 @@ public class LoginPageSD {
 	public void user_able_to_see_home_page_of_orange_hrm() {
 		commonPage.validateAnyPagesInOrangeHRM("Dashboard");	
 	}
+	
+//	@When("user enters username as {string} and password{string} and clicks on login button")
+//	public void user_enters_username_as_and_password_admin123_and_clicks_on_login_button1(String string, String string2) {
+//
+//	}
+	
+	@When("user enters username as {string} and password{string} and clicks on login button")
+	public void user_enters_username_as_and_password_admin123_and_clicks_on_login_button(String string, String string2) {
+		System.out.println(string);
+		System.out.println(string2);
+		loginPage.loginOrangeHRM(string, string2);
+	}
+	
+	
+//	@When("user enters {string} and {string} and clicks on login button")
+//	public void user_enters_and_and_clicks_on_login_button(String string, String string2) {
+// 
+//	}
 
 }

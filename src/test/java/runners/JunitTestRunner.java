@@ -9,7 +9,8 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
 		features = "src\\test\\resources\\features"
 		,glue = {"stepDefinitions"}
-		, tags = ""
+		, tags = "@LoginWithParameter1"
+		, plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
 //		, dryRun = true
 		)	
 

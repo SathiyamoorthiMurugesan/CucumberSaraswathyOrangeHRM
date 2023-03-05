@@ -1,10 +1,18 @@
 package generic;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Base64;
+import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,10 +21,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
 public class Base {
 
-	public WebDriver driver;
+	public static WebDriver driver;
 
 	public WebDriver launchBrowser(String browserName) throws Exception {
 		if (browserName.equalsIgnoreCase("Chrome")) {
@@ -37,19 +44,161 @@ public class Base {
 
 	public WebDriver getDriver() {
 		if (driver != null) {
-			return this.driver;
+			return Base.driver;
 		}
 		return driver;
 	}
 
 	public void setDriver(WebDriver driver) {
-		this.driver = driver;
-	}
-
-	public void quitBrowser() {
-		driver.quit();
+		Base.driver = driver;
 	}
 	
+	public static String getBase64Screenshots() throws IOException {
+
+		String base64StringOfScreenshot = "";
+		File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("ddMMYYYY_HHmmss");
+
+		String sDate = sdf.format(date);
+
+		String screenshotdir = System.getProperty("user.dir") + "/folderName/" + "imageName" + sDate + ".png";
+		File screenshotName = new File(screenshotdir);
+		FileUtils.copyFile(src, screenshotName);
+
+		byte[] fileContent = FileUtils.readFileToByteArray(screenshotName);
+		base64StringOfScreenshot = "date:image/png;png;base64," + Base64.getEncoder().encodeToString(fileContent);
+
+		return base64StringOfScreenshot;
+	}
+
+//	 ************** WebDriver methods ********************
+//void get(String url);
+//String getCurrentUrl();
+//String getTitle();
+//List<WebElement> findElements(By by);
+//WebElement findElement(By by);
+//String getPageSource();
+//void close();
+//void quit();
+//Set<String> getWindowHandles();
+//String getWindowHandle();
+//TargetLocator switchTo();
+//	WebDriver frame(int index);
+//	WebDriver frame(String nameOrId);
+//	WebDriver frame(WebElement frameElement);
+//	WebDriver parentFrame();
+//	WebDriver window(String nameOrHandle);
+//	WebDriver newWindow(WindowType typeHint);
+//	WebDriver defaultContent();
+//	WebElement activeElement();
+//	Alert alert();
+//		void dismiss();
+//		void accept();
+//		String getText();
+//		void sendKeys(String keysToSend);
+//
+//Navigation navigate();
+//	void back();
+//	void forward();
+//	void to(String url);
+//	void to(URL url);
+//	void refresh();
+//Options manage();
+//	void addCookie(Cookie cookie);
+//	void deleteCookieNamed(String name);
+//	void deleteCookie(Cookie cookie);
+//	void deleteAllCookies();
+//	Set<Cookie> getCookies();
+//	Cookie getCookieNamed(String name);
+//	Timeouts timeouts();
+//		default Timeouts implicitlyWait(Duration duration)
+//		default Duration getImplicitWaitTimeout()
+//		default Timeouts pageLoadTimeout(Duration duration)
+//	Window window();
+//		Dimension getSize();
+//		void setSize(Dimension targetSize);
+//		Point getPosition();
+//		void setPosition(Point targetPosition);
+//		void maximize();
+//		void minimize();
+//		void fullscreen();
+//	Logs logs();
+//		LogEntries get(String logType);
+//		Set<String> getAvailableLogTypes();
+
+	public void quitBrowser() {
+		driver.close();
+		driver.quit();
+	}
+
+	public void closeCurrentActionWindow() {
+		driver.close();
+	}
+
+	public String getCurrentUrl() {
+		return driver.getCurrentUrl();
+	}
+
+	public void goBackToPreviousWebPage() {
+		driver.navigate().back();
+	}
+
+	public void switchToFrameUsingFrameIndex(int index) {
+		driver.switchTo().frame(index);
+	}
+
+	public void switchToFrameUsingFrameName(String frameName) {
+		driver.switchTo().frame(frameName);
+	}
+
+	public void switchToFrameUsingWebElementName(WebElement elementName) {
+		driver.switchTo().frame(elementName);
+	}
+
+//	******* WebElement methods************************
+//void click();
+//void submit();
+//void sendKeys(CharSequence... keysToSend);
+//void clear();
+//String getTagName();
+//default String getDomProperty(String name)
+//default String getDomAttribute(String name)
+//String getAttribute(String name);
+//default String getAriaRole()
+//default String getAccessibleName()
+//boolean isSelected();
+//boolean isEnabled();
+//String getText();
+//default SearchContext getShadowRoot()
+//boolean isDisplayed();
+//Point getLocation();
+//Dimension getSize();
+//Rectangle getRect();
+//String getCssValue(String propertyName);
+	
+	
+	public void clickAnWebElement(WebElement ele) {
+		ele.click();
+	}
+	
+	public void sendTextToAnWebElement(WebElement ele, String text) {
+		ele.sendKeys(text);
+	}
+
+	/*
+	 * Actions class methods
+	 */
+
+	/*
+	 * Select class methods
+	 */
+
+	/*
+	 * Robot class methods
+	 */
+
 	public void maximizeBrowserWindow() {
 		getDriver().manage().window().maximize();
 		getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
@@ -73,7 +222,6 @@ public class Base {
 //		return Base64StringOfScreenshot;
 //
 //	}
-
 
 	/*
 	 * Wait Methods
