@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import generic.Base;
+import stepDefinitions.Hooks;
 
 public class OrangeLoginPage {
 	
@@ -54,9 +55,10 @@ public class OrangeLoginPage {
 		base.maximizeBrowserWindow();
 	}
 	
-	public void loginOrangeHRM(String userName, String password) {
+	public void loginOrangeHRM(String userName, String password) throws Exception {
 		textBox_UserName.sendKeys(userName);
 		textBox_Password.sendKeys(password);
+		base.attachScreenshot(Hooks.scenario);
 		button_Login.click();
 		base.pause(10);
 	}

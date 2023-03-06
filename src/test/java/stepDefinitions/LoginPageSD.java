@@ -39,7 +39,7 @@ public class LoginPageSD {
 //	}
 	
 	@When("user enters username as {string} and password{string} and clicks on login button")
-	public void user_enters_username_as_and_password_admin123_and_clicks_on_login_button(String string, String string2) {
+	public void user_enters_username_as_and_password_admin123_and_clicks_on_login_button(String string, String string2) throws Exception {
 		System.out.println(string);
 		System.out.println(string2);
 		loginPage.loginOrangeHRM(string, string2);

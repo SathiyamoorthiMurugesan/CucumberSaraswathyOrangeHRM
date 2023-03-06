@@ -21,6 +21,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+
+import io.cucumber.java.Scenario;
+import stepDefinitions.Hooks;
+
 public class Base {
 
 	public static WebDriver driver;
@@ -72,6 +77,26 @@ public class Base {
 
 		return base64StringOfScreenshot;
 	}
+	
+	public void attachScreenshot(Scenario scenario) throws Exception {
+		final byte[] screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
+
+		if (Hooks.scenario.isFailed()) {
+			Hooks.scenario.attach(screenshot, "image/png", "Failed Test Step Screenshot");
+			Hooks.scenario.attach("Failed Screenshot", "text/html", "Failed Test Steps Text");
+			ExtentCucumberAdapter.addTestStepScreenCaptureFromPath(Base.getBase64Screenshots());
+			ExtentCucumberAdapter.addTestStepLog("Failed Screenshot");
+		}
+
+		else {
+			Hooks.scenario.attach(screenshot, "image/png", "Passed Test Step Screenshot");
+			Hooks.scenario.attach("Passed Screenshot", "text/html", "Failed Test Steps Text");
+			ExtentCucumberAdapter.addTestStepScreenCaptureFromPath(Base.getBase64Screenshots());
+			ExtentCucumberAdapter.addTestStepLog("Passed Screenshot");
+		}
+
+	}
+
 
 //	 ************** WebDriver methods ********************
 //void get(String url);
